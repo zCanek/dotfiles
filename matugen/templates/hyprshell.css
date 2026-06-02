@@ -1,0 +1,15 @@
+:root {
+	--border-color: {{ colors.outline.dark.hex }};
+	--border-color-active: {{colors.primary.dark.hex }};
+	
+	--bg-color: {{ colors.surface_container_lowest.dark.hex }};
+	--bg-color-hover: {{ colors.surface_container.dark.hex }};
+
+	--border-radius: 12px;
+	--border-size: 3px;
+	--border-style: solid;
+
+	--text-color: {{ colors.on_surface.dark.hex }};
+
+	--window-padding: 3px;
+	--bg-window-color: {{ colors.surface.dark.hex }};

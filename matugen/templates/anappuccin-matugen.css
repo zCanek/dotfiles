@@ -1,0 +1,591 @@
+/*
+ * AnuPpuccin — Matugen Template
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Convierte el tema AnuPpuccin de Obsidian para usar colores generados
+ * dinámicamente por Matugen (Material You / MD3) a partir de tu fondo de pantalla.
+ *
+ * REQUISITOS: matugen >= 3.x
+ *
+ * USO:
+ *   Agrega en ~/.config/matugen/config.toml:
+ *
+ *   [templates.anuppuccin]
+ *   input_path  = "/ruta/a/este/archivo/anuppuccin-matugen.css"
+ *   output_path = "~/.config/obsidian/snippets/anuppuccin-matugen.css"
+ *
+ *   Luego ejecuta:
+ *   matugen image /ruta/a/tu/fondo.png
+ *
+ * MAPEO DE COLORES (Catppuccin → Material You):
+ *   Superficies   → background / surface_variant (con variantes de luminosidad)
+ *   Texto         → on_surface / on_surface_variant / outline
+ *   Acento azul   → primary / primary_container / inverse_primary
+ *   Acento cálido → secondary / secondary_container
+ *   Acento rosa   → tertiary / tertiary_container
+ *   Error/rojo    → error / error_container
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ * NOTA SOBRE EL TRUCO RGB:
+ *   AnuPpuccin usa `--ctp-xxx: R, G, B` (sin rgb()) para luego llamarlos con
+ *   rgb(var(--ctp-xxx)) y rgba(var(--ctp-xxx), 0.5). Para extraer los
+ *   componentes R, G, B del formato `rgb(r, g, b)` que devuelve Matugen se
+ *   usan los filtros:  | replace: "rgb(", "" | replace: ")", ""
+ */
+
+/* ═══════════════════════════════════════════════════════════════════
+   TEMA OSCURO — Mapea los colores del scheme `dark` de Matugen
+   ═══════════════════════════════════════════════════════════════════ */
+.theme-dark {
+  /* ── Acentos ─────────────────────────────────────────────────── */
+  /* Familia rosa/cálida → tertiary */
+  --ctp-rosewater: var(--ctp-custom-rosewater, var(--ctp-ext-rosewater, {{ colors.dark.tertiary.default.rgb | set_lightness: -5 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-flamingo:  var(--ctp-custom-flamingo,  var(--ctp-ext-flamingo,  {{ colors.dark.tertiary.default.rgb | set_lightness: -10 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-pink:      var(--ctp-custom-pink,      var(--ctp-ext-pink,      {{ colors.dark.tertiary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* Familia morado/principal → primary */
+  --ctp-mauve:     var(--ctp-custom-mauve,     var(--ctp-ext-mauve,     {{ colors.dark.primary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* Familia rojo → error */
+  --ctp-red:       var(--ctp-custom-red,       var(--ctp-ext-red,       {{ colors.dark.error.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-maroon:    var(--ctp-custom-maroon,    var(--ctp-ext-maroon,    {{ colors.dark.error_container.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* Familia naranja/cálida → secondary */
+  --ctp-peach:     var(--ctp-custom-peach,     var(--ctp-ext-peach,     {{ colors.dark.secondary.default.rgb | set_lightness: 5 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-yellow:    var(--ctp-custom-yellow,    var(--ctp-ext-yellow,    {{ colors.dark.secondary_container.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* Familia verde/frío → tertiary_container (acento complementario) */
+  --ctp-green:     var(--ctp-custom-green,     var(--ctp-ext-green,     {{ colors.dark.tertiary_container.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* Familia teal/cian → secondary */
+  --ctp-teal:      var(--ctp-custom-teal,      var(--ctp-ext-teal,      {{ colors.dark.secondary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* Familia azul claro → inverse_primary / primary variants */
+  --ctp-sky:       var(--ctp-custom-sky,       var(--ctp-ext-sky,       {{ colors.dark.inverse_primary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-sapphire:  var(--ctp-custom-sapphire,  var(--ctp-ext-sapphire,  {{ colors.dark.primary.default.rgb | set_lightness: -10 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-blue:      var(--ctp-custom-blue,      var(--ctp-ext-blue,      {{ colors.dark.primary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-lavender:  var(--ctp-custom-lavender,  var(--ctp-ext-lavender,  {{ colors.dark.primary_container.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* ── Texto / overlays ────────────────────────────────────────── */
+  --ctp-text:      var(--ctp-custom-text,      var(--ctp-ext-text,      {{ colors.dark.on_surface.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-subtext1:  var(--ctp-custom-subtext1,  var(--ctp-ext-subtext1,  {{ colors.dark.on_surface.default.rgb | set_lightness: -7 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-subtext0:  var(--ctp-custom-subtext0,  var(--ctp-ext-subtext0,  {{ colors.dark.on_surface.default.rgb | set_lightness: -15 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-overlay2:  var(--ctp-custom-overlay2,  var(--ctp-ext-overlay2,  {{ colors.dark.on_surface_variant.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-overlay1:  var(--ctp-custom-overlay1,  var(--ctp-ext-overlay1,  {{ colors.dark.outline.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-overlay0:  var(--ctp-custom-overlay0,  var(--ctp-ext-overlay0,  {{ colors.dark.outline_variant.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* ── Superficies (de más alta a más baja elevación) ─────────── */
+  --ctp-surface2:  var(--ctp-custom-surface2,  var(--ctp-ext-surface2,  {{ colors.dark.surface_variant.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-surface1:  var(--ctp-custom-surface1,  var(--ctp-ext-surface1,  {{ colors.dark.surface_variant.default.rgb | set_lightness: -7 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-surface0:  var(--ctp-custom-surface0,  var(--ctp-ext-surface0,  {{ colors.dark.surface_variant.default.rgb | set_lightness: -14 | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* ── Fondos base (de más claro a más oscuro) ─────────────────── */
+  --ctp-base:      var(--ctp-custom-base,      var(--ctp-ext-base,      {{ colors.dark.background.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-mantle:    var(--ctp-custom-mantle,    var(--ctp-ext-mantle,    {{ colors.dark.background.default.rgb | set_lightness: -2 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-crust:     var(--ctp-custom-crust,     var(--ctp-ext-crust,     {{ colors.dark.background.default.rgb | set_lightness: -5 | replace: "rgb(", "" | replace: ")", "" }}));
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TEMA CLARO — Mapea los colores del scheme `light` de Matugen
+   ═══════════════════════════════════════════════════════════════════ */
+.theme-light {
+  /* ── Acentos ─────────────────────────────────────────────────── */
+  --ctp-rosewater: var(--ctp-custom-rosewater, var(--ctp-ext-rosewater, {{ colors.light.tertiary.default.rgb | set_lightness: 5 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-flamingo:  var(--ctp-custom-flamingo,  var(--ctp-ext-flamingo,  {{ colors.light.tertiary.default.rgb | set_lightness: 10 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-pink:      var(--ctp-custom-pink,      var(--ctp-ext-pink,      {{ colors.light.tertiary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  --ctp-mauve:     var(--ctp-custom-mauve,     var(--ctp-ext-mauve,     {{ colors.light.primary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  --ctp-red:       var(--ctp-custom-red,       var(--ctp-ext-red,       {{ colors.light.error.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-maroon:    var(--ctp-custom-maroon,    var(--ctp-ext-maroon,    {{ colors.light.error_container.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  --ctp-peach:     var(--ctp-custom-peach,     var(--ctp-ext-peach,     {{ colors.light.secondary.default.rgb | set_lightness: -5 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-yellow:    var(--ctp-custom-yellow,    var(--ctp-ext-yellow,    {{ colors.light.secondary_container.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  --ctp-green:     var(--ctp-custom-green,     var(--ctp-ext-green,     {{ colors.light.tertiary_container.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  --ctp-teal:      var(--ctp-custom-teal,      var(--ctp-ext-teal,      {{ colors.light.secondary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  --ctp-sky:       var(--ctp-custom-sky,       var(--ctp-ext-sky,       {{ colors.light.inverse_primary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-sapphire:  var(--ctp-custom-sapphire,  var(--ctp-ext-sapphire,  {{ colors.light.primary.default.rgb | set_lightness: 10 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-blue:      var(--ctp-custom-blue,      var(--ctp-ext-blue,      {{ colors.light.primary.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-lavender:  var(--ctp-custom-lavender,  var(--ctp-ext-lavender,  {{ colors.light.primary_container.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* ── Texto / overlays ────────────────────────────────────────── */
+  --ctp-text:      var(--ctp-custom-text,      var(--ctp-ext-text,      {{ colors.light.on_surface.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-subtext1:  var(--ctp-custom-subtext1,  var(--ctp-ext-subtext1,  {{ colors.light.on_surface.default.rgb | set_lightness: 7 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-subtext0:  var(--ctp-custom-subtext0,  var(--ctp-ext-subtext0,  {{ colors.light.on_surface.default.rgb | set_lightness: 15 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-overlay2:  var(--ctp-custom-overlay2,  var(--ctp-ext-overlay2,  {{ colors.light.on_surface_variant.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-overlay1:  var(--ctp-custom-overlay1,  var(--ctp-ext-overlay1,  {{ colors.light.outline.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-overlay0:  var(--ctp-custom-overlay0,  var(--ctp-ext-overlay0,  {{ colors.light.outline_variant.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* ── Superficies ─────────────────────────────────────────────── */
+  --ctp-surface2:  var(--ctp-custom-surface2,  var(--ctp-ext-surface2,  {{ colors.light.surface_variant.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-surface1:  var(--ctp-custom-surface1,  var(--ctp-ext-surface1,  {{ colors.light.surface_variant.default.rgb | set_lightness: 5 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-surface0:  var(--ctp-custom-surface0,  var(--ctp-ext-surface0,  {{ colors.light.surface_variant.default.rgb | set_lightness: 10 | replace: "rgb(", "" | replace: ")", "" }}));
+
+  /* ── Fondos base ─────────────────────────────────────────────── */
+  --ctp-base:      var(--ctp-custom-base,      var(--ctp-ext-base,      {{ colors.light.background.default.rgb | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-mantle:    var(--ctp-custom-mantle,    var(--ctp-ext-mantle,    {{ colors.light.background.default.rgb | set_lightness: -2 | replace: "rgb(", "" | replace: ")", "" }}));
+  --ctp-crust:     var(--ctp-custom-crust,     var(--ctp-ext-crust,     {{ colors.light.background.default.rgb | set_lightness: -5 | replace: "rgb(", "" | replace: ")", "" }}));
+}
+
+/*------------------Selecting Accents-------------------*/
+.anuppuccin-accent-toggle.ctp-accent-rosewater {
+  --ctp-accent: var(--ctp-rosewater);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-rosewater {
+  --ctp-accent: var(--ctp-rosewater);
+}
+
+.anp-bold-rosewater {
+  --anp-bold-color: var(--ctp-rosewater);
+}
+
+.anp-italic-rosewater {
+  --anp-italic-color: var(--ctp-rosewater);
+}
+
+.anp-highlight-rosewater {
+  --anp-highlight-color: var(--ctp-rosewater);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-flamingo {
+  --ctp-accent: var(--ctp-flamingo);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-flamingo {
+  --ctp-accent: var(--ctp-flamingo);
+}
+
+.anp-bold-flamingo {
+  --anp-bold-color: var(--ctp-flamingo);
+}
+
+.anp-italic-flamingo {
+  --anp-italic-color: var(--ctp-flamingo);
+}
+
+.anp-highlight-flamingo {
+  --anp-highlight-color: var(--ctp-flamingo);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-pink {
+  --ctp-accent: var(--ctp-pink);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-pink {
+  --ctp-accent: var(--ctp-pink);
+}
+
+.anp-bold-pink {
+  --anp-bold-color: var(--ctp-pink);
+}
+
+.anp-italic-pink {
+  --anp-italic-color: var(--ctp-pink);
+}
+
+.anp-highlight-pink {
+  --anp-highlight-color: var(--ctp-pink);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-mauve {
+  --ctp-accent: var(--ctp-mauve);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-mauve {
+  --ctp-accent: var(--ctp-mauve);
+}
+
+.anp-bold-mauve {
+  --anp-bold-color: var(--ctp-mauve);
+}
+
+.anp-italic-mauve {
+  --anp-italic-color: var(--ctp-mauve);
+}
+
+.anp-highlight-mauve {
+  --anp-highlight-color: var(--ctp-mauve);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-red {
+  --ctp-accent: var(--ctp-red);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-red {
+  --ctp-accent: var(--ctp-red);
+}
+
+.anp-bold-red {
+  --anp-bold-color: var(--ctp-red);
+}
+
+.anp-italic-red {
+  --anp-italic-color: var(--ctp-red);
+}
+
+.anp-highlight-red {
+  --anp-highlight-color: var(--ctp-red);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-maroon {
+  --ctp-accent: var(--ctp-maroon);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-maroon {
+  --ctp-accent: var(--ctp-maroon);
+}
+
+.anp-bold-maroon {
+  --anp-bold-color: var(--ctp-maroon);
+}
+
+.anp-italic-maroon {
+  --anp-italic-color: var(--ctp-maroon);
+}
+
+.anp-highlight-maroon {
+  --anp-highlight-color: var(--ctp-maroon);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-peach {
+  --ctp-accent: var(--ctp-peach);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-peach {
+  --ctp-accent: var(--ctp-peach);
+}
+
+.anp-bold-peach {
+  --anp-bold-color: var(--ctp-peach);
+}
+
+.anp-italic-peach {
+  --anp-italic-color: var(--ctp-peach);
+}
+
+.anp-highlight-peach {
+  --anp-highlight-color: var(--ctp-peach);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-yellow {
+  --ctp-accent: var(--ctp-yellow);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-yellow {
+  --ctp-accent: var(--ctp-yellow);
+}
+
+.anp-bold-yellow {
+  --anp-bold-color: var(--ctp-yellow);
+}
+
+.anp-italic-yellow {
+  --anp-italic-color: var(--ctp-yellow);
+}
+
+.anp-highlight-yellow {
+  --anp-highlight-color: var(--ctp-yellow);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-green {
+  --ctp-accent: var(--ctp-green);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-green {
+  --ctp-accent: var(--ctp-green);
+}
+
+.anp-bold-green {
+  --anp-bold-color: var(--ctp-green);
+}
+
+.anp-italic-green {
+  --anp-italic-color: var(--ctp-green);
+}
+
+.anp-highlight-green {
+  --anp-highlight-color: var(--ctp-green);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-teal {
+  --ctp-accent: var(--ctp-teal);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-teal {
+  --ctp-accent: var(--ctp-teal);
+}
+
+.anp-bold-teal {
+  --anp-bold-color: var(--ctp-teal);
+}
+
+.anp-italic-teal {
+  --anp-italic-color: var(--ctp-teal);
+}
+
+.anp-highlight-teal {
+  --anp-highlight-color: var(--ctp-teal);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-sky {
+  --ctp-accent: var(--ctp-sky);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-sky {
+  --ctp-accent: var(--ctp-sky);
+}
+
+.anp-bold-sky {
+  --anp-bold-color: var(--ctp-sky);
+}
+
+.anp-italic-sky {
+  --anp-italic-color: var(--ctp-sky);
+}
+
+.anp-highlight-sky {
+  --anp-highlight-color: var(--ctp-sky);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-sapphire {
+  --ctp-accent: var(--ctp-sapphire);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-sapphire {
+  --ctp-accent: var(--ctp-sapphire);
+}
+
+.anp-bold-sapphire {
+  --anp-bold-color: var(--ctp-sapphire);
+}
+
+.anp-italic-sapphire {
+  --anp-italic-color: var(--ctp-sapphire);
+}
+
+.anp-highlight-sapphire {
+  --anp-highlight-color: var(--ctp-sapphire);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-blue {
+  --ctp-accent: var(--ctp-blue);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-blue {
+  --ctp-accent: var(--ctp-blue);
+}
+
+.anp-bold-blue {
+  --anp-bold-color: var(--ctp-blue);
+}
+
+.anp-italic-blue {
+  --anp-italic-color: var(--ctp-blue);
+}
+
+.anp-highlight-blue {
+  --anp-highlight-color: var(--ctp-blue);
+}
+
+.anuppuccin-accent-toggle.ctp-accent-lavender {
+  --ctp-accent: var(--ctp-lavender);
+}
+
+.theme-light.anuppuccin-accent-toggle.ctp-accent-light-lavender {
+  --ctp-accent: var(--ctp-lavender);
+}
+
+.anp-bold-lavender {
+  --anp-bold-color: var(--ctp-lavender);
+}
+
+.anp-italic-lavender {
+  --anp-italic-color: var(--ctp-lavender);
+}
+
+.anp-highlight-lavender {
+  --anp-highlight-color: var(--ctp-lavender);
+}
+
+/*------------------Actual Configs--------------------*/
+.anuppuccin-accent-toggle {
+  --color-accent: rgb(var(--ctp-accent));
+  --color-accent-1: rgb(var(--ctp-accent));
+  --color-accent-2: rgba(var(--ctp-accent), 0.9);
+  --text-selection: rgba(var(--ctp-accent), 0.25);
+  --interactive-accent: rgb(var(--ctp-accent));
+  --interactive-accent-hover: rgba(var(--ctp-accent), 0.9);
+  --text-accent: rgb(var(--ctp-accent));
+  --text-accent-hover: rgb(var(--ctp-accent));
+  --text-highlight-bg: rgba(var(--ctp-accent), 0.4);
+  --text-highlight-bg-active: rgba(var(--ctp-accent), 0.6);
+  --interactive-accent: rgb(var(--ctp-accent));
+  --interactive-accent-rgb: var(--ctp-accent);
+  --interactive-accent-hover: rgb(var(--ctp-accent));
+  --blockquote-border-color: rgb(var(--ctp-accent));
+  --background-modifier-active: rgba(var(--ctp-accent), 0.1);
+  --background-modifier-active-hover: rgba(var(--ctp-accent), 0.15);
+  --link-unresolved-decoration-color: rgba(var(--ctp-accent), 0.3);
+  --tag-background: rgba(var(--ctp-accent), 0.1);
+  --tag-background-hover: rgba(var(--ctp-accent), 0.2);
+  --tag-border-color: rgba(var(--ctp-accent), 0.15);
+  --tag-border-color-hover: rgba(var(--ctp-accent), 0.15);
+  --nav-item-background-selected: rgba(var(--ctp-accent), 0.2);
+  --heading-formatting: rgb(var(--ctp-accent));
+  --icon-color-focused: rgb(var(--ctp-accent));
+}
+
+.theme-dark,
+.theme-light {
+  --mono-rgb-0: var(--ctp-crust);
+  --mono-rgb-100: var(--ctp-text);
+  --color-red-rgb: var(--ctp-red);
+  --color-red: rgb(var(--ctp-red));
+  --color-green-rgb: var(--ctp-green);
+  --color-green: rgb(var(--ctp-green));
+  --color-orange-rgb: var(--ctp-peach);
+  --color-orange: rgb(var(--ctp-peach));
+  --color-yellow-rgb: var(--ctp-yellow);
+  --color-yellow: rgb(var(--ctp-yellow));
+  --color-cyan-rgb: var(--ctp-sky);
+  --color-cyan: rgb(var(--ctp-sky));
+  --color-blue-rgb: var(--ctp-blue);
+  --color-blue: rgb(var(--ctp-blue));
+  --color-purple-rgb: var(--ctp-lavender);
+  --color-purple: rgb(var(--ctp-lavender));
+  --color-pink-rgb: var(--ctp-pink);
+  --color-pink: rgb(var(--ctp-pink));
+  --color-base-00: rgb(var(--ctp-crust));
+  --color-base-10: rgb(var(--ctp-mantle));
+  --color-base-20: rgb(var(--ctp-base));
+  --color-base-25: rgb(var(--ctp-surface0));
+  --color-base-30: rgb(var(--ctp-surface1));
+  --color-base-35: rgb(var(--ctp-surface2));
+  --color-base-40: rgb(var(--ctp-overlay0));
+  --color-base-50: rgb(var(--ctp-overlay1));
+  --color-base-60: rgb(var(--ctp-overlay2));
+  --color-base-70: rgb(var(--ctp-subtext0));
+  --color-base-100: rgb(var(--ctp-text));
+  --text-highlight-bg: rgba(var(--ctp-yellow), 0.2);
+  --text-highlight-bg-active: rgba(var(--ctp-yellow), 0.4);
+  --input-shadow: inset 0 0.5px 0.5px 0.5px rgba(var(255, 255, 255), 0.09),
+      0 2px 4px 0 rgba(var(--ctp-crust), 0.15),
+      0 1px 1.5px 0 rgba(var(--ctp-crust), 0.1),
+      0 1px 2px 0 rgba(var(--ctp-crust), 0.2), 0 0 0 0 transparent;
+  --input-shadow-hover: inset 0 0.5px 1px 0.5px rgba(var(255, 255, 255), 0.16),
+      0 2px 3px 0 rgba(var(--ctp-crust), 0.3),
+      0 1px 1.5px 0 rgba(var(--ctp-crust), 0.2),
+      0 1px 2px 0 rgba(var(--ctp-crust), 0.4), 0 0 0 0 transparent;
+  --shadow-s: 0px 1px 2px rgba(var(--ctp-crust), 0.121),
+      0px 3.4px 6.7px rgba(var(--ctp-crust), 0.179),
+      0px 15px 30px rgba(var(--ctp-crust), 0.3);
+  --shadow-l: 0px 1.8px 7.3px rgba(var(--ctp-crust), 0.071),
+      0px 6.3px 24.7px rgba(var(--ctp-crust), 0.112),
+      0px 30px 90px rgba(var(--ctp-crust), 0.2);
+  --background-primary: rgb(var(--ctp-base));
+  --background-primary-alt: rgb(var(--ctp-mantle));
+  --background-secondary: rgb(var(--ctp-mantle));
+  --background-secondary-alt: rgb(var(--ctp-crust));
+  --background-modifier-hover: rgba(var(--ctp-text), 0.075);
+  --background-modifier-form-field: rgba(var(--ctp-crust), 0.3);
+  --background-modifier-success: rgba(var(--ctp-green), 1);
+  --background-modifier-success-hover: rgba(var(--ctp-green), 0.9);
+  --background-modifier-success-rgb: var(--ctp-green);
+  --background-modifier-error: rgba(var(--ctp-red), 1);
+  --background-modifier-error-rgb: var(--ctp-red);
+  --background-modifier-error-hover: rgba(var(--ctp-red), 0.9);
+  --background-modifier-message: rgba(var(--ctp-crust), 0.9);
+  --modal-border-color: rgb(var(--ctp-surface0));
+  --text-normal: rgb(var(--ctp-text));
+  --text-muted: rgb(var(--ctp-overlay2));
+  --text-muted-rgb: var(--ctp-overlay2);
+  --text-faint: rgb(var(--ctp-subtext0));
+  --text-error: rgb(var(--ctp-red));
+  --text-error-hover: rgba(var(--ctp-red), 0.8);
+  --text-success: rgb(var(--ctp-green));
+  --text-on-accent: rgb(var(--ctp-base));
+  --interactive-normal: rgb(var(--ctp-surface0));
+  --interactive-hover: rgb(var(--ctp-surface1));
+  --interactive-success: rgb(var(--ctp-green));
+  --workspace-background-translucent: rgba(var(--ctp-crust), 0.6);
+  --blockquote-background-color: rgba(var(--ctp-crust), 0.5);
+  --width-image-gallery: 200px;
+  --min-width-image: 50%;
+  --max-width-image: 90%;
+  --drag-ghost-background: rgb(var(--ctp-text));
+  --drag-ghost-text-color: rgb(var(--ctp-crust));
+  --nav-indentation-guide-color: rgb(var(--ctp-overlay0));
+  --titlebar-text-color-focused: var(--color-accent);
+  --callout-title-padding: var(--size-4-2);
+  --table-border-width: var(--anp-table-thickness, 1px);
+  --icon-color-focused: var(--color-accent);
+  --embed-block-shadow-hover: none;
+}
+
+.theme-dark {
+  color-scheme: dark;
+  --highlight-mix-blend-mode: none;
+  --background-modifier-border: rgb(var(--ctp-surface0));
+  --background-modifier-border-hover: rgb(var(--ctp-surface1));
+  --background-modifier-border-focus: rgb(var(--ctp-surface2));
+  --anp-speech-bubble-opacity: var(--anp-sp-op-dark, 0.9);
+  --background-modifier-cover: rgba(var(--ctp-mantle), 0.4);
+}
+.theme-dark.theme-dark {
+  --canvas-color: var(--ctp-overlay0);
+}
+
+.theme-light {
+  color-scheme: light;
+  --highlight-mix-blend-mode: none;
+  --background-modifier-border: rgb(var(--ctp-surface1));
+  --background-modifier-border-hover: rgb(var(--ctp-surface2));
+  --background-modifier-border-focus: rgb(var(--ctp-overlay0));
+  --anp-speech-bubble-opacity: var(--anp-sp-op-light, 0.5);
+  --background-modifier-cover: #00000022;
+}
+.theme-light.theme-light {
+  --canvas-color: var(--ctp-overlay0);
+}
+
+body {
+  --anp-rainbow-folder-bg-opacity: 1;
+  --anp-rainbow-folder-border-opacity: 1;
+  --anp-rainbow-folder-collapse-border-custom: #00000044;
+  --anp-preview-width-pct: 95%;
+  --anp-preview-width-max: 800px;
+  --anp-header-margin-value: 15px;
+  --anp-header-font: "Noto Serif";
+  --tab-stacked-pane-width: calc(var(--anp-tab-stacked-pane-width, 1) * var(--file-line-width));
+  --anp-table-width-pct: 100%;
+  --code-background: var(--anp-code-bg-color, var(--background-secondary-alt));
+  --canvas-color: var(--ctp-overlay2);
+  --card-background-color: rgb(var(--ctp-crust));
+  --card-foreground-color: rgb(var(--ctp-base));
+  --tab-inactive-color: rgb(var(--ctp-mantle));
+  --code-normal: var(--anp-code-text-color, var(--text-normal));
+  --callout-padding: 0;
+  --callout-title-padding: var(--size-4-2);
+  --callout-content-padding: var(--size-4-2);
+  --background-modifier-active: hsla(var(--color-accent-hsl), 0.1);
+  --pdf-background: var(--background-primary);
+  --pdf-dark-opacity: 1;
+  --pdf-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 8px transparent;
+  --pdf-sidebar-background: var(--background-primary);
+  --pdf-thumbnail-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 8px transparent;
+}
+body.theme-light {
+  --anp-background-image: var(--anp-background-image-light);
+  --anp-custom-bg-brightness: var(--anp-custom-bg-brightness-light);
+  --anp-custom-bg-blur: var(--anp-custom-bg-blur-light);
+  --anp-custom-bg-card-fg-opacity: var(--anp-custom-bg-card-fg-opacity-light);
+}
+body.theme-dark {
+  --anp-background-image: var(--anp-background-image-dark);
+  --anp-custom-bg-brightness: var(--anp-custom-bg-brightness-dark);
+  --anp-custom-bg-blur: var(--anp-custom-bg-blur-dark);
+  --anp-custom-bg-card-fg-opacity: var(--anp-custom-bg-card-fg-opacity-dark);
+}
