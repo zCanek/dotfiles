@@ -1,0 +1,12 @@
+background = 000000
+
+font-family = "JetBrainsMono Nerd Font"
+
+# KEYBINDINGS ---------------
+
+keybind = ctrl+w=close_tab
+keybind = ctrl+t=new_tab
+
+font-size = 10
+
+theme = "Matugen"
